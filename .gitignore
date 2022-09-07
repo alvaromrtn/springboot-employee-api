@@ -1,0 +1,8 @@
+﻿*.log
+rest-user-service-application/target
+rest-user-service-persistence/target
+rest-user-service-presentation/target
+rest-user-service-service/target
+rest-user-service-util/target
+
+
