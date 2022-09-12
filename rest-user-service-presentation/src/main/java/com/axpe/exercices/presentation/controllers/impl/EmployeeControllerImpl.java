@@ -1,16 +1,18 @@
 package com.axpe.exercices.presentation.controllers.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.axpe.exercices.persistence.entities.Employee;
 import com.axpe.exercices.presentation.controllers.EmployeeController;
 import com.axpe.exercices.service.EmployeeService;
+import com.axpe.exercices.service.dto.EmployeeDTO;
 
 @Controller
 public class EmployeeControllerImpl implements EmployeeController {
@@ -19,51 +21,55 @@ public class EmployeeControllerImpl implements EmployeeController {
 	private EmployeeService employeeService;
 
 	@Override
-	public ResponseEntity<?> getEmployee(int id, UUID xRequestID) {
+	public ResponseEntity<?> getEmployee(long id, UUID xRequestID) {
 
-		System.out.println("HOLA");
-		System.out.println("HOLA");
-		System.out.println("HOLA");
+		Optional<Employee> employee = employeeService.getEmployee(id);
 
-		return null;
+		if (employee.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(employee);
+		}
 	}
 
 	@Override
-	public ResponseEntity<?> updateEmployee(int id, UUID xRequestID, RequestEntity<?> data) {
+	public ResponseEntity<?> updateEmployee(long id, UUID xRequestID, EmployeeDTO employeeDTO) {
 
-		System.out.println("HOLA");
-		System.out.println("HOLA");
-		System.out.println("HOLA");
+		boolean isUpdated = employeeService.updateEmployee(id, employeeDTO);
 
-		return null;
+		if (isUpdated) {
+			return ResponseEntity.ok(HttpStatus.OK);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
-	public ResponseEntity<?> deleteEmployee(int id, UUID xRequestID) {
+	public ResponseEntity<?> deleteEmployee(long id, UUID xRequestID) {
 
-		System.out.println("HOLA");
-		System.out.println("HOLA");
-		System.out.println("HOLA");
+		boolean isDeleted = employeeService.deleteEmployee(id);
 
-		return null;
+		if (isDeleted) {
+			return ResponseEntity.ok(HttpStatus.OK);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
-	public ResponseEntity<?> addEmployee(UUID xRequestID, RequestEntity<?> data) {
+	public ResponseEntity<?> addEmployee(UUID xRequestID, EmployeeDTO employeeDTO) {
 
-		System.out.println("HOLA");
-		System.out.println("HOLA");
-		System.out.println("HOLA");
+		boolean isAdded = employeeService.addEmployee(employeeDTO);
 
-		return null;
+		if (isAdded) {
+			return ResponseEntity.ok(HttpStatus.OK);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
 	public ResponseEntity<?> getAllEmployees(UUID xRequestID) {
-
-		System.out.println("HOLA");
-		System.out.println("HOLA");
-		System.out.println("HOLA");
 
 		List<Employee> employees = employeeService.getAllEmployees();
 

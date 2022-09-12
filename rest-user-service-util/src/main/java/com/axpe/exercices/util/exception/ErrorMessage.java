@@ -47,4 +47,36 @@ public class ErrorMessage implements Serializable {
 	 */
 	private String description;
 
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public TypeErrorEnum getType() {
+		return type;
+	}
+
+	public void setType(TypeErrorEnum type) {
+		this.type = type;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 }
