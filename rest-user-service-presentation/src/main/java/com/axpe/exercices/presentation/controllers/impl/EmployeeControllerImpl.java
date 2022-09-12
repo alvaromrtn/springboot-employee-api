@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -18,15 +19,51 @@ public class EmployeeControllerImpl implements EmployeeController {
 	private EmployeeService employeeService;
 
 	@Override
-	public List<Employee> getRandomData(int id, UUID xRequestID) {
+	public ResponseEntity<?> getEmployee(int id, UUID xRequestID) {
 
-		System.out.print("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> updateEmployee(int id, UUID xRequestID, RequestEntity<?> data) {
+
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> deleteEmployee(int id, UUID xRequestID) {
+
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<?> addEmployee(UUID xRequestID, RequestEntity<?> data) {
+
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
 
 		return null;
 	}
 
 	@Override
 	public ResponseEntity<?> getAllEmployees(UUID xRequestID) {
+
+		System.out.println("HOLA");
+		System.out.println("HOLA");
+		System.out.println("HOLA");
 
 		List<Employee> employees = employeeService.getAllEmployees();
 

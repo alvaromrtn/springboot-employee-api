@@ -16,8 +16,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
-	@Autowired
-    private ModelMapper modelMapper;
+
 
 	@Override
 	public List<Employee> getAllEmployees() {
