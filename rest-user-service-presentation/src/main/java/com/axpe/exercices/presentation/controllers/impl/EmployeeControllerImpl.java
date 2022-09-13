@@ -71,7 +71,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	public ResponseEntity<?> getAllEmployees(UUID xRequestID) {
 
-		List<Employee> employees = employeeService.getAllEmployees();
+		List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
 		if (employees.isEmpty()) {
 			return ResponseEntity.notFound().build();

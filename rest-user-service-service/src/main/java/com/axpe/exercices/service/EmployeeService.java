@@ -16,6 +16,6 @@ public interface EmployeeService {
 
 	boolean addEmployee(EmployeeDTO employeeDTO);
 
-	List<Employee> getAllEmployees();
+	List<EmployeeDTO> getAllEmployees();
 
 }

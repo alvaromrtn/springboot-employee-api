@@ -1,7 +1,5 @@
 package com.axpe.exercices.service.dto;
 
-import java.sql.Timestamp;
-
 import lombok.Data;
 
 @Data
@@ -23,15 +21,7 @@ public class EmployeeDTO {
 
 	private String nickname;
 
-	private String password;
-
 	private String status;
-
-	private Timestamp entry_date;
-
-	private Timestamp cancel_date;
-
-	private Timestamp modified_date;
 
 	public Long getId() {
 		return id;
@@ -97,44 +87,12 @@ public class EmployeeDTO {
 		this.nickname = nickname;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public Timestamp getEntry_date() {
-		return entry_date;
-	}
-
-	public void setEntry_date(Timestamp entry_date) {
-		this.entry_date = entry_date;
-	}
-
-	public Timestamp getCancel_date() {
-		return cancel_date;
-	}
-
-	public void setCancel_date(Timestamp cancel_date) {
-		this.cancel_date = cancel_date;
-	}
-
-	public Timestamp getModified_date() {
-		return modified_date;
-	}
-
-	public void setModified_date(Timestamp modified_date) {
-		this.modified_date = modified_date;
 	}
 
 }

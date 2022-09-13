@@ -11,12 +11,16 @@ import com.axpe.exercices.persistence.entities.Employee;
 import com.axpe.exercices.persistence.repository.EmployeeRepository;
 import com.axpe.exercices.service.EmployeeService;
 import com.axpe.exercices.service.dto.EmployeeDTO;
+import com.axpe.exercices.service.mappers.EmployeeMapper;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private EmployeeMapper employeeMapper;
 
 	@Override
 	public Optional<Employee> getEmployee(long id) {
@@ -87,11 +91,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employee> getAllEmployees() {
+	public List<EmployeeDTO> getAllEmployees() {
 
 		List<Employee> employees = employeeRepository.findAll();
 
-		return employees;
+		List<EmployeeDTO> employeesDTO = employeeMapper.getAllEmployeesMapper(employees);
+
+		return employeesDTO;
 	}
 
 }
