@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.axpe.exercices.presentation.http.CustomHeaders;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
 
 public interface EmployeeController {
@@ -28,10 +29,15 @@ public interface EmployeeController {
 
 	@RequestMapping(value = "/employee", method = RequestMethod.POST)
 	ResponseEntity<?> addEmployee(@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID,
-			@RequestBody EmployeeDTO employeeDTO);
+			@RequestBody EmployeeAddDTO employeeDTO);
 
 	@RequestMapping(value = "/employees", method = RequestMethod.GET)
 	ResponseEntity<?> getAllEmployees(
+			@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID);
+
+	// BORRAR:
+	@RequestMapping(value = "/employeesTodo", method = RequestMethod.GET)
+	ResponseEntity<?> getAllEmployeesTodo(
 			@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID);
 
 }

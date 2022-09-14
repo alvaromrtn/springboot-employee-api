@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.axpe.exercices.persistence.entities.Employee;
+import com.axpe.exercices.persistence.repository.EmployeeRepository;
 import com.axpe.exercices.presentation.controllers.EmployeeController;
 import com.axpe.exercices.service.EmployeeService;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
 
 @Controller
@@ -19,6 +21,10 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+
+	// BORRAR:
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
 	@Override
 	public ResponseEntity<?> getEmployee(long id, UUID xRequestID) {
@@ -57,7 +63,9 @@ public class EmployeeControllerImpl implements EmployeeController {
 	}
 
 	@Override
-	public ResponseEntity<?> addEmployee(UUID xRequestID, EmployeeDTO employeeDTO) {
+	public ResponseEntity<?> addEmployee(UUID xRequestID, EmployeeAddDTO employeeDTO) {
+
+		// COMPROBAR QUE LOS CAMPOS NO SEAN NULL
 
 		boolean isAdded = employeeService.addEmployee(employeeDTO);
 
@@ -72,6 +80,19 @@ public class EmployeeControllerImpl implements EmployeeController {
 	public ResponseEntity<?> getAllEmployees(UUID xRequestID) {
 
 		List<EmployeeDTO> employees = employeeService.getAllEmployees();
+
+		if (employees.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(employees);
+		}
+	}
+
+	// BORRAR:
+	@Override
+	public ResponseEntity<?> getAllEmployeesTodo(UUID xRequestID) {
+
+		List<Employee> employees = employeeRepository.findAll();
 
 		if (employees.isEmpty()) {
 			return ResponseEntity.notFound().build();

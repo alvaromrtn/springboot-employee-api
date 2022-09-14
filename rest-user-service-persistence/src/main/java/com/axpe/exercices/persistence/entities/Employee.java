@@ -3,19 +3,21 @@ package com.axpe.exercices.persistence.entities;
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
 
+@SuppressWarnings("unused")
 @Data
 @Entity
 @Table(name = "users")
 public class Employee {
 
-	@Column(name = "id")
 	@Id
+	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "name")

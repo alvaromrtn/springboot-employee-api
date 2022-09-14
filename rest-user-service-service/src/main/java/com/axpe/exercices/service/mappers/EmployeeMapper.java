@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.axpe.exercices.persistence.entities.Employee;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
 
 @Component
@@ -34,5 +35,22 @@ public class EmployeeMapper {
 		}
 		return employeesDTO;
 	}
+	
+	public Employee addEmployeeMapper(EmployeeAddDTO employeeDTO) {
+
+		Employee employee = new Employee();
+	
+		employee.setName(employeeDTO.getName());
+		employee.setSurname1(employeeDTO.getSurname1());
+		employee.setSurname2(employeeDTO.getSurname2());
+		employee.setEmail(employeeDTO.getEmail());
+		employee.setPhone_number(employeeDTO.getPhone_number());
+		employee.setNif(employeeDTO.getNif());
+		employee.setNickname(employeeDTO.getNickname());
+		employee.setPassword(employeeDTO.getPassword());
+		
+		return employee;
+	}
+
 
 }

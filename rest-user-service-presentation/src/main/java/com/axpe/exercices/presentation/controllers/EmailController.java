@@ -2,7 +2,6 @@ package com.axpe.exercices.presentation.controllers;
 
 import java.util.UUID;
 
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -17,6 +16,6 @@ public interface EmailController {
 	@RequestMapping(value = "/validateEmail", method = RequestMethod.POST)
 	@ResponseBody
 	ResponseEntity<?> validateEmail(@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID,
-			@RequestBody RequestEntity<?> data);
+			@RequestBody String email);
 
 }

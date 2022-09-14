@@ -1,15 +1,18 @@
 package com.axpe.exercices.service.impl;
 
 import java.sql.Timestamp;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.axpe.exercices.persistence.entities.Employee;
 import com.axpe.exercices.persistence.repository.EmployeeRepository;
 import com.axpe.exercices.service.EmployeeService;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
 import com.axpe.exercices.service.mappers.EmployeeMapper;
 
@@ -33,7 +36,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean updateEmployee(long id, EmployeeDTO employeeUpdated) {
 
-		if (employeeRepository.findById(id).isPresent()) {
+		Optional<Employee> employee = employeeRepository.findById(id);
+
+		if (employee.isPresent()) {
 			Employee employeeToUpdate = new Employee();
 			employeeToUpdate.setId(id);
 			employeeToUpdate.setName(employeeUpdated.getName());
@@ -56,34 +61,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> employee = employeeRepository.findById(id);
 
 		if (employee.isPresent()) {
-			employeeRepository.deleteById(id);
+			Employee employeeToDelete = employee.get();
+
+			employeeToDelete.setStatus("ELIMINADO");
+			employeeToDelete.setCancel_date(new Timestamp(System.currentTimeMillis()));
+
+			employeeRepository.save(employeeToDelete);
+
 			return true;
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	@Override
-	public boolean addEmployee(EmployeeDTO employeeNew) {
+	public boolean addEmployee(EmployeeAddDTO employeeNew) {
 
-		List<Employee> employees = employeeRepository.findAll();
+		Employee employeeToAdd = employeeMapper.addEmployeeMapper(employeeNew);
 
-		long id = employees.get(employees.size() - 1).getId();
+		employeeToAdd.setId(employeeRepository.count() + 1);
 
-		Employee employeeToAdd = new Employee();
-		employeeToAdd.setId(id + 1);
-		employeeToAdd.setName("Juan");
-		employeeToAdd.setSurname1("Juan");
-		employeeToAdd.setSurname2("Juan");
-		employeeToAdd.setEmail("sara@axpe.es");
-		employeeToAdd.setPhone_number("+34689456126");
-		employeeToAdd.setNif("123456789J");
-		employeeToAdd.setNickname("prueba");
-		employeeToAdd.setPassword("prueba");
+		// Encrypt password:
+		String salt = BCrypt.gensalt(10);
+		String hashedPassword = BCrypt.hashpw(employeeToAdd.getPassword(), salt);
+		employeeToAdd.setPassword(hashedPassword);
+
 		employeeToAdd.setStatus("ACTIVO");
 		employeeToAdd.setEntry_date(new Timestamp(System.currentTimeMillis()));
-		employeeToAdd.setCancel_date(new Timestamp(System.currentTimeMillis()));
-		employeeToAdd.setModified_date(new Timestamp(System.currentTimeMillis()));
 
 		employeeRepository.save(employeeToAdd);
 
@@ -93,9 +97,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<EmployeeDTO> getAllEmployees() {
 
-		List<Employee> employees = employeeRepository.findAll();
+		List<Employee> employeesActive = employeeRepository.findAllActive();
 
-		List<EmployeeDTO> employeesDTO = employeeMapper.getAllEmployeesMapper(employees);
+		List<EmployeeDTO> employeesDTO = employeeMapper.getAllEmployeesMapper(employeesActive);
 
 		return employeesDTO;
 	}

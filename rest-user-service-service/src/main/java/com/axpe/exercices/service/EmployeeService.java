@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.axpe.exercices.persistence.entities.Employee;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
 
 public interface EmployeeService {
@@ -14,7 +15,7 @@ public interface EmployeeService {
 
 	boolean deleteEmployee(long id);
 
-	boolean addEmployee(EmployeeDTO employeeDTO);
+	boolean addEmployee(EmployeeAddDTO employeeDTO);
 
 	List<EmployeeDTO> getAllEmployees();
 
