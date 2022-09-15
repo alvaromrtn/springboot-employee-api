@@ -7,3 +7,4 @@ rest-user-service-service/target
 rest-user-service-util/target
 
 
+target/failsafe-reports/failsafe-summary.xml

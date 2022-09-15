@@ -15,10 +15,10 @@ public class EmailServiceImpl implements EmailService {
 	public boolean validateEmail(String email) {
 
 		HttpRequest request = HttpRequest.newBuilder()
-				.uri(URI.create("https://global-email-v4.p.rapidapi.com/v4/WEB/GlobalEmail/doGlobalEmail?email=" + email
-						+ "&opt=VerifyMailbox%3AExpress%7CVerifyMailbox%3AExpressPremium&format=json"))
-				.header("X-RapidAPI-Key", "86a8266baemshdd9dcfa0f7e2261p123116jsn55a0acec42af")
-				.header("X-RapidAPI-Host", "global-email-v4.p.rapidapi.com")
+				.uri(URI.create("https://api.tomba.io/v1/email-verifier/"+email))
+				.header("content-type", "application/json")
+				.header("X-Tomba-Key", "ta_fa57370cfcee370b374275c19054c40aca115")
+				.header("X-Tomba-Secret", "ts_96727274-b784-4b9d-b642-78194fd00a7b")
 				.method("GET", HttpRequest.BodyPublishers.noBody()).build();
 		HttpResponse<String> response;
 		try {
@@ -31,7 +31,8 @@ public class EmailServiceImpl implements EmailService {
 			e.printStackTrace();
 
 			return false;
-		}
 	}
 
+}
+	
 }

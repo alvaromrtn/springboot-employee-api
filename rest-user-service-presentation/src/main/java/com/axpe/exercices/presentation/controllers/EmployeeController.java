@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.axpe.exercices.presentation.http.CustomHeaders;
+import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeUpdateDTO;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
