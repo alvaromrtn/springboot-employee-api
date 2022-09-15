@@ -38,3 +38,13 @@ spring:
       hibernate:
         format_sql: true
         hibernate.dialect: org.hibernate.dialect.H2Dialect
+        
+# SPRINGDOC:
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    path: /swagger/v3/api-docs
+  swagger-ui:
+    path: /swagger
+
