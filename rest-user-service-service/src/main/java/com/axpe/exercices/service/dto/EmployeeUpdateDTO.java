@@ -1,13 +1,9 @@
 package com.axpe.exercices.service.dto;
 
-import javax.validation.constraints.NotNull;
-
 import lombok.Data;
 
 @Data
-public class EmployeeAddDTO {
-
-	@NotNull
+public class EmployeeUpdateDTO {
 	private String name;
 
 	private String surname1;
@@ -18,13 +14,10 @@ public class EmployeeAddDTO {
 
 	private String phone_number;
 
-	@NotNull
 	private String nif;
 
-	@NotNull
 	private String nickname;
 	
-	@NotNull
 	private String password;
 
 	public String getName() {
@@ -92,3 +85,4 @@ public class EmployeeAddDTO {
 	}
 
 }
+

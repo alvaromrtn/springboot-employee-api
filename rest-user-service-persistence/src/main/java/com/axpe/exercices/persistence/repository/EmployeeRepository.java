@@ -13,5 +13,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	@Query(value = "from Employee where status = 'ACTIVO'")
 	List<Employee> findAllActive();
+	
+	@Query(value = "from Employee where nif = :nif")
+	Employee findByNIF(String nif);
 
 }

@@ -47,6 +47,10 @@ public class ErrorMessage implements Serializable {
 	 */
 	private String description;
 
+	public ErrorMessage() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCode() {
 		return code;
 	}

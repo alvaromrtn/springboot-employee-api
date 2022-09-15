@@ -14,7 +14,9 @@ import com.axpe.exercices.persistence.repository.EmployeeRepository;
 import com.axpe.exercices.service.EmployeeService;
 import com.axpe.exercices.service.dto.EmployeeAddDTO;
 import com.axpe.exercices.service.dto.EmployeeDTO;
+import com.axpe.exercices.service.dto.EmployeeUpdateDTO;
 import com.axpe.exercices.service.mappers.EmployeeMapper;
+import com.axpe.exercices.util.HashPassword;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -34,18 +36,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public boolean updateEmployee(long id, EmployeeDTO employeeUpdated) {
+	public boolean updateEmployee(long id, EmployeeUpdateDTO employeeDTO) {
 
 		Optional<Employee> employee = employeeRepository.findById(id);
 
 		if (employee.isPresent()) {
-			Employee employeeToUpdate = new Employee();
-			employeeToUpdate.setId(id);
-			employeeToUpdate.setName(employeeUpdated.getName());
-			employeeToUpdate.setNif("123456789J");
-			employeeToUpdate.setNickname("prueba");
-			employeeToUpdate.setPassword("prueba");
-			employeeToUpdate.setEntry_date(new Timestamp(System.currentTimeMillis()));
+
+			Employee employeeToUpdate = employee.get();
+
+			if (employeeDTO.getName() != null)
+				employeeToUpdate.setName(employeeDTO.getName());
+			if (employeeDTO.getSurname1() != null)
+				employeeToUpdate.setSurname1(employeeDTO.getSurname1());
+			if (employeeDTO.getSurname2() != null)
+				employeeToUpdate.setSurname2(employeeDTO.getSurname2());
+			if (employeeDTO.getEmail() != null)
+				employeeToUpdate.setEmail(employeeDTO.getEmail());
+			if (employeeDTO.getPhone_number() != null)
+				employeeToUpdate.setPhone_number(employeeDTO.getPhone_number());
+			if (employeeDTO.getNif() != null) {
+
+				// Employed with this NIF already exists:
+				if (employeeRepository.findByNIF(employeeDTO.getNif()) != null)
+					return false;
+
+				employeeToUpdate.setNif(employeeDTO.getNif());
+			}
+
+			if (employeeDTO.getNickname() != null)
+				employeeToUpdate.setNickname(employeeDTO.getNickname());
+			if (employeeDTO.getPassword() != null) {
+				// Hash password:
+				String hashedPassword = HashPassword.hashPassword(employeeDTO.getPassword());
+				employeeToUpdate.setPassword(hashedPassword);
+			}
+
+			employeeToUpdate.setModified_date(new Timestamp(System.currentTimeMillis()));
 
 			employeeRepository.save(employeeToUpdate);
 
@@ -63,12 +89,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (employee.isPresent()) {
 			Employee employeeToDelete = employee.get();
 
+			if(employeeToDelete.getStatus() != "ELIMINADO") {
 			employeeToDelete.setStatus("ELIMINADO");
 			employeeToDelete.setCancel_date(new Timestamp(System.currentTimeMillis()));
 
 			employeeRepository.save(employeeToDelete);
 
 			return true;
+			}
 		}
 
 		return false;
@@ -81,9 +109,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		employeeToAdd.setId(employeeRepository.count() + 1);
 
-		// Encrypt password:
-		String salt = BCrypt.gensalt(10);
-		String hashedPassword = BCrypt.hashpw(employeeToAdd.getPassword(), salt);
+		// Employed with this NIF already exists:
+		if (employeeRepository.findByNIF(employeeNew.getNif()) != null)
+			return false;
+
+		// Hash password:
+		String hashedPassword = HashPassword.hashPassword(employeeToAdd.getPassword());
 		employeeToAdd.setPassword(hashedPassword);
 
 		employeeToAdd.setStatus("ACTIVO");
