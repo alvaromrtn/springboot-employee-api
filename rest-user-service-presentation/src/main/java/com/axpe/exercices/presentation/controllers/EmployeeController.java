@@ -53,10 +53,4 @@ public interface EmployeeController {
 	ResponseEntity<?> getAllEmployees(
 			@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID);
 
-	// BORRAR:
-	@RequestMapping(value = "/employeesTodo", method = RequestMethod.GET)
-	@ResponseBody
-	ResponseEntity<?> getAllEmployeesTodo(
-			@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID);
-
 }

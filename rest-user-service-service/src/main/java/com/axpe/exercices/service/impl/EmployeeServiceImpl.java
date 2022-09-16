@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.axpe.exercices.persistence.entities.Employee;
@@ -28,11 +27,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeMapper employeeMapper;
 
 	@Override
-	public Optional<Employee> getEmployee(long id) {
+	public EmployeeDTO getEmployee(long id) {
 
 		Optional<Employee> employee = employeeRepository.findById(id);
 
-		return employee;
+		if (employee.isPresent()) {
+
+			EmployeeDTO employeesDTO = employeeMapper.employeeToEmployeeDTO(employee.get());
+
+			return employeesDTO;
+		}
+
+		return null;
 	}
 
 	@Override
@@ -55,7 +61,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 			if (employeeDTO.getPhone_number() != null)
 				employeeToUpdate.setPhone_number(employeeDTO.getPhone_number());
 			if (employeeDTO.getNif() != null) {
-
 				// Employed with this NIF already exists:
 				if (employeeRepository.findByNIF(employeeDTO.getNif()) != null)
 					return false;
@@ -89,13 +94,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (employee.isPresent()) {
 			Employee employeeToDelete = employee.get();
 
-			if(employeeToDelete.getStatus() != "ELIMINADO") {
-			employeeToDelete.setStatus("ELIMINADO");
-			employeeToDelete.setCancel_date(new Timestamp(System.currentTimeMillis()));
+			if (employeeToDelete.getStatus() != "ELIMINADO") {
+				employeeToDelete.setStatus("ELIMINADO");
+				employeeToDelete.setCancel_date(new Timestamp(System.currentTimeMillis()));
 
-			employeeRepository.save(employeeToDelete);
+				employeeRepository.save(employeeToDelete);
 
-			return true;
+				return true;
 			}
 		}
 

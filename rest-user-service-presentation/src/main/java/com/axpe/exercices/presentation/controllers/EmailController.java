@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.axpe.exercices.presentation.http.CustomHeaders;
+import com.axpe.exercices.service.dto.EmailDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +24,6 @@ public interface EmailController {
 	@RequestMapping(value = "/validateEmail", method = RequestMethod.POST)
 	@ResponseBody
 	ResponseEntity<?> validateEmail(@RequestHeader(value = CustomHeaders.X_REQUEST_ID, required = true) UUID xRequestID,
-			@RequestBody String email);
+			@RequestBody EmailDTO email);
 
 }

@@ -1,17 +1,13 @@
 package com.axpe.exercices.presentation.controllers.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.server.ResponseStatusException;
 
-import com.axpe.exercices.persistence.entities.Employee;
-import com.axpe.exercices.persistence.repository.EmployeeRepository;
 import com.axpe.exercices.presentation.controllers.EmployeeController;
 import com.axpe.exercices.service.EmployeeService;
 import com.axpe.exercices.service.dto.EmployeeAddDTO;
@@ -29,18 +25,17 @@ public class EmployeeControllerImpl implements EmployeeController {
 	@Override
 	public ResponseEntity<?> getEmployee(long id, UUID xRequestID) {
 
-		Optional<Employee> employee = employeeService.getEmployee(id);
+		EmployeeDTO employeeDTO = employeeService.getEmployee(id);
 
-		if (employee.isEmpty()) {
-			//super("No se puede encontrar el empleado con la ID: " + id);
+		if (employeeDTO == null) {
 			ErrorMessage errorMessage = new ErrorMessage();
-			errorMessage.setCode("123");
-			errorMessage.setDescription("prueba");
-			errorMessage.setMessage("prueba");
+			errorMessage.setCode("404");
+			errorMessage.setDescription("Employee with specified ID not found.");
+			errorMessage.setMessage("NOT FOUND");
 			errorMessage.setType(TypeErrorEnum.ERROR);
-			return ResponseEntity.badRequest().body(errorMessage);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.NOT_FOUND);
 		} else {
-			return ResponseEntity.ok(employee);
+			return ResponseEntity.ok(employeeDTO);
 		}
 	}
 
@@ -50,10 +45,19 @@ public class EmployeeControllerImpl implements EmployeeController {
 		boolean isUpdated = employeeService.updateEmployee(id, employeeDTO);
 
 		if (isUpdated) {
-			return ResponseEntity.ok(HttpStatus.CREATED);
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("202");
+			errorMessage.setDescription("Employee update successful.");
+			errorMessage.setMessage("CREATED");
+			errorMessage.setType(TypeErrorEnum.INFO);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.CREATED);
 		} else {
-			//super("No se puede encontrar el empleado con la ID: " + id);
-			return ResponseEntity.notFound().build();
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("404");
+			errorMessage.setDescription("Employee with specified ID not found.");
+			errorMessage.setMessage("NOT FOUND");
+			errorMessage.setType(TypeErrorEnum.ERROR);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -63,10 +67,19 @@ public class EmployeeControllerImpl implements EmployeeController {
 		boolean isDeleted = employeeService.deleteEmployee(id);
 
 		if (isDeleted) {
-			return ResponseEntity.ok(HttpStatus.OK);
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("200");
+			errorMessage.setDescription("Employee delete successful.");
+			errorMessage.setMessage("OK");
+			errorMessage.setType(TypeErrorEnum.INFO);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.OK);
 		} else {
-			//super("No se puede encontrar el empleado con la ID: " + id);
-			return ResponseEntity.notFound().build();
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("404");
+			errorMessage.setDescription("Employee with specified ID not found.");
+			errorMessage.setMessage("NOT FOUND");
+			errorMessage.setType(TypeErrorEnum.ERROR);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -76,10 +89,19 @@ public class EmployeeControllerImpl implements EmployeeController {
 		boolean isAdded = employeeService.addEmployee(employeeDTO);
 
 		if (isAdded) {
-			return ResponseEntity.ok(HttpStatus.CREATED);
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("202");
+			errorMessage.setDescription("Employee added successful.");
+			errorMessage.setMessage("CREATED");
+			errorMessage.setType(TypeErrorEnum.INFO);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.CREATED);
 		} else {
-			//super("No se puede encontrar el empleado con la ID: " + id);
-			return ResponseEntity.notFound().build();
+			ErrorMessage errorMessage = new ErrorMessage();
+			errorMessage.setCode("404");
+			errorMessage.setDescription("Employee could not be added.");
+			errorMessage.setMessage("NOT FOUND");
+			errorMessage.setType(TypeErrorEnum.ERROR);
+			return new ResponseEntity<ErrorMessage>(errorMessage, null, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -88,35 +110,7 @@ public class EmployeeControllerImpl implements EmployeeController {
 
 		List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
-		if (employees.isEmpty()) {
-			ErrorMessage errorMessage = new ErrorMessage();
-			errorMessage.setCode(null);
-			errorMessage.setDescription(null);
-			errorMessage.setMessage(null);
-			errorMessage.setType(null);
-			return ResponseEntity.badRequest().body(errorMessage);
-		} else {
-			return ResponseEntity.ok(employees);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	// BORRAR:
-		@Autowired
-		private EmployeeRepository employeeRepository;
-		
-	// BORRAR:
-	@Override
-	public ResponseEntity<?> getAllEmployeesTodo(UUID xRequestID) {
-
-		List<Employee> employees = employeeRepository.findAll();
-
-		if (employees.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		} else {
-			return ResponseEntity.ok(employees);
-		}
+		return ResponseEntity.ok(employees);
 	}
 
 }

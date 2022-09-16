@@ -3,12 +3,12 @@ package com.axpe.exercices.presentation.controllers.impl;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import com.axpe.exercices.presentation.controllers.EmailController;
 import com.axpe.exercices.service.EmailService;
+import com.axpe.exercices.service.dto.EmailDTO;
 
 @Controller
 public class EmailControllerImpl implements EmailController {
@@ -17,16 +17,11 @@ public class EmailControllerImpl implements EmailController {
 	private EmailService emailService;
 
 	@Override
-	public ResponseEntity<?> validateEmail(UUID xRequestID, String email) {
+	public ResponseEntity<?> validateEmail(UUID xRequestID, EmailDTO emailDTO) {
 
-		boolean isValid = emailService.validateEmail(email);
+		String validateEmail = emailService.validateEmail(emailDTO.getEmail());
 
-		if (isValid) {
-			return ResponseEntity.ok(HttpStatus.OK);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-
+		return ResponseEntity.ok(validateEmail);
 	}
 
 }

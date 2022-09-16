@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class EmployeeUpdateDTO {
+
 	private String name;
 
 	private String surname1;
@@ -17,7 +18,7 @@ public class EmployeeUpdateDTO {
 	private String nif;
 
 	private String nickname;
-	
+
 	private String password;
 
 	public String getName() {
@@ -85,4 +86,3 @@ public class EmployeeUpdateDTO {
 	}
 
 }
-

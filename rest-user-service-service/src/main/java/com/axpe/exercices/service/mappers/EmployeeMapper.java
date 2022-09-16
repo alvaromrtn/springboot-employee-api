@@ -51,5 +51,22 @@ public class EmployeeMapper {
 		
 		return employee;
 	}
+	
+	public EmployeeDTO employeeToEmployeeDTO(Employee employee) {
+
+		EmployeeDTO employeeDTO = new EmployeeDTO();
+	
+		employeeDTO.setId(employee.getId());
+		employeeDTO.setName(employee.getName());
+		employeeDTO.setSurname1(employee.getSurname1());
+		employeeDTO.setSurname2(employee.getSurname2());
+		employeeDTO.setEmail(employee.getEmail());
+		employeeDTO.setPhone_number(employee.getPhone_number());
+		employeeDTO.setNif(employee.getNif());
+		employeeDTO.setNickname(employee.getNickname());
+		employeeDTO.setStatus(employee.getStatus());
+		
+		return employeeDTO;
+	}
 
 }

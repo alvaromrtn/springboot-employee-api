@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 									description = "Application within the technological framework of API Methodology.",
 									contact = @Contact(name = "Álvaro Martín", email = "alvaromrtn@gmail.com")),
 					servers = {		@Server(description = "Production server", url = "http://54.174.126.218:8000"),
-									@Server(description = "Development server", url = "http://localhost:8080")})
+									@Server(description = "Development server", url = "http://localhost:8000")})
 public class Application {
     
     public static void main(String[] args) {

@@ -7,12 +7,14 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.springframework.stereotype.Service;
 
+
 import com.axpe.exercices.service.EmailService;
 
 @Service
+
 public class EmailServiceImpl implements EmailService {
 
-	public boolean validateEmail(String email) {
+	public String validateEmail(String email) {
 
 		HttpRequest request = HttpRequest.newBuilder()
 				.uri(URI.create("https://api.tomba.io/v1/email-verifier/"+email))
@@ -25,12 +27,10 @@ public class EmailServiceImpl implements EmailService {
 			response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 			System.out.println(response.body());
 
-			return true;
+			return response.body();
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 
-			return false;
+			return null;
 	}
 
 }

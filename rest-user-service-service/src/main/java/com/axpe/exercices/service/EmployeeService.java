@@ -10,7 +10,7 @@ import com.axpe.exercices.service.dto.EmployeeUpdateDTO;
 
 public interface EmployeeService {
 
-	Optional<Employee> getEmployee(long id);
+	EmployeeDTO getEmployee(long id);
 
 	boolean updateEmployee(long id, EmployeeUpdateDTO employeeDTO);
 
